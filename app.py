@@ -11,8 +11,6 @@ from werkzeug.utils import secure_filename
 import pandas as pd
 import os
 import numpy as np
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
 import pickle
 from utils.fertilizer import get_nutrient_recommendations
 import threading
@@ -53,9 +51,14 @@ class ModelManager:
                     continue
                 
                 try:
+                    from tensorflow.keras.models import load_model
+
                     self.pest_classifier = load_model(resolved_model_path)
                     logger.info(f"Pest model loaded: {model_path}")
                     return self.pest_classifier
+                except ImportError:
+                    logger.warning("TensorFlow is not installed; pest model loading is disabled")
+                    return None
                 except Exception as e:
                     logger.warning(f"Model load failed ({model_path}): {str(e)}")
                     continue
@@ -152,6 +155,12 @@ def predict_pest_species(image_path):
         model = model_mgr.get_pest_model()
         if model is None:
             logger.warning("Pest detection model unavailable")
+            return 'unknown', None
+
+        try:
+            from tensorflow.keras.preprocessing import image
+        except ImportError:
+            logger.warning("TensorFlow is not installed; pest image preprocessing is disabled")
             return 'unknown', None
         
         # Get model input specifications

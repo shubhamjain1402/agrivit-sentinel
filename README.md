@@ -46,6 +46,16 @@ web: gunicorn app:app
 
 The app reads the `PORT` environment variable when deployed and falls back to port `5000` locally.
 
+### Vercel
+
+This repository includes `vercel.json` and `.python-version` for Vercel's Python runtime.
+
+1. Import `https://github.com/shubhamjain1402/agrivit-sentinel` in Vercel.
+2. Keep the default build settings.
+3. Deploy.
+
+Vercel currently supports Python 3.12+ for Python functions, so TensorFlow is not installed by default. Crop and fertilizer features deploy normally; pest detection requires adding a compatible TensorFlow setup and a pest model file.
+
 ## Important Model Notes
 
 - `Crop_Recommendation.pkl` is included and used for crop recommendations.
