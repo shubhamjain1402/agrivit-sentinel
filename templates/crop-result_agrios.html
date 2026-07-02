@@ -1,0 +1,133 @@
+{% extends "layout_agrios.html" %}
+
+{% block body %}
+
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-primary to-green-600 py-20">
+  <div class="container mx-auto px-4 text-center">
+    <div class="max-w-3xl mx-auto">
+      <div class="inline-block bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 mb-6">
+        <span class="text-white font-semibold"><i class="fas fa-check-circle mr-2"></i>Analysis Complete</span>
+      </div>
+      <h1 class="text-5xl font-bold text-white mb-6">Crop Recommendation Result</h1>
+      <p class="text-xl text-white/90 leading-relaxed">
+        Based on your soil and environmental data, here's our AI-powered recommendation
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Result Section -->
+<section class="py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+      <!-- Result Card -->
+      <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-primary to-green-600 px-8 py-6 text-center">
+          <h2 class="text-2xl font-bold text-white mb-2">Recommended Crop</h2>
+          <p class="text-white/90">Best match for your farm conditions</p>
+        </div>
+
+        <!-- Content -->
+        <div class="p-8 md:p-12">
+          <!-- Crop Name -->
+          <div class="text-center mb-8">
+            <div class="inline-block bg-primary/10 rounded-full px-8 py-4 mb-6">
+              <h3 class="text-4xl md:text-5xl font-bold text-primary capitalize">
+                {{ prediction }}
+              </h3>
+            </div>
+          </div>
+
+          <!-- Crop Image -->
+          <div class="mb-8">
+            <img 
+              src="{{url_for('static',filename=pred)}}" 
+              alt="{{ prediction }}"
+              class="w-full max-w-2xl mx-auto rounded-xl shadow-lg object-cover"
+              style="max-height: 400px;"
+            >
+          </div>
+
+          <!-- Success Message -->
+          <div class="bg-green-50 border-l-4 border-primary rounded-lg p-6 mb-8">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <i class="fas fa-check-circle text-2xl text-primary"></i>
+              </div>
+              <div class="ml-4">
+                <h4 class="text-lg font-bold text-gray-800 mb-2">
+                  Perfect Match Found!
+                </h4>
+                <p class="text-gray-700">
+                  Based on the NPK ratio (Nitrogen, Phosphorous, Potassium), pH level, rainfall, temperature, and humidity you provided, 
+                  <strong class="text-primary capitalize">{{ prediction }}</strong> is the optimal crop for your farm conditions.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Benefits Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="text-center p-6 bg-gray-50 rounded-lg">
+              <div class="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-chart-line text-primary text-xl"></i>
+              </div>
+              <h5 class="font-bold text-gray-800 mb-1">Optimal Yield</h5>
+              <p class="text-sm text-gray-600">Maximizes productivity</p>
+            </div>
+            
+            <div class="text-center p-6 bg-gray-50 rounded-lg">
+              <div class="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-leaf text-primary text-xl"></i>
+              </div>
+              <h5 class="font-bold text-gray-800 mb-1">Soil Compatible</h5>
+              <p class="text-sm text-gray-600">Perfect for your soil</p>
+            </div>
+            
+            <div class="text-center p-6 bg-gray-50 rounded-lg">
+              <div class="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-cloud-sun text-primary text-xl"></i>
+              </div>
+              <h5 class="font-bold text-gray-800 mb-1">Climate Ready</h5>
+              <p class="text-sm text-gray-600">Suits your weather</p>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a 
+              href="/CropRecommendation.html" 
+              class="bg-primary text-white px-8 py-4 rounded-lg font-semibold hover:bg-green-600 transition-all text-center"
+            >
+              <i class="fas fa-redo mr-2"></i>Try Another Analysis
+            </a>
+            <a 
+              href="/FertilizerRecommendation.html" 
+              class="border-2 border-primary text-primary px-8 py-4 rounded-lg font-semibold hover:bg-primary hover:text-white transition-all text-center"
+            >
+              <i class="fas fa-flask mr-2"></i>Get Fertilizer Recommendation
+            </a>
+            <a 
+              href="/" 
+              class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all text-center"
+            >
+              <i class="fas fa-home mr-2"></i>Go Home
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <div class="mt-8 text-center">
+        <p class="text-gray-600">
+          <i class="fas fa-info-circle mr-1"></i>
+          This recommendation is based on AI analysis of your provided data. Always consult with local agricultural experts for best results.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

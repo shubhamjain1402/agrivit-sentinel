@@ -1,0 +1,102 @@
+{% extends "layout_agrios.html" %}
+
+{% block body %}
+
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-orange-600 to-orange-500 py-20">
+  <div class="container mx-auto px-4 text-center">
+    <div class="max-w-3xl mx-auto">
+      <div class="inline-block bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 mb-6">
+        <span class="text-white font-semibold"><i class="fas fa-bug mr-2"></i>Pest Identified</span>
+      </div>
+      <h1 class="text-5xl font-bold text-white mb-6 capitalize">{{ pred }}</h1>
+      <p class="text-xl text-white/90 leading-relaxed">
+        AI-powered pest identification complete - here are the recommended treatments
+      </p>
+    </div>
+  </div>
+<!-- Result Section -->
+<section class="py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="max-w-6xl mx-auto">
+      <!-- Main Card -->
+      <div class="bg-white rounded-2xl shadow-2xl overflow-hidden mb-8">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-orange-600 to-orange-500 px-8 py-6 text-center">
+          <h2 class="text-2xl font-bold text-white mb-2">Recommended Pesticides</h2>
+          <p class="text-white/90">Effective treatments for pest control</p>
+        </div>
+        {% if uploaded_image_url %}
+        <section class="py-10 bg-white">
+          <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+              <div class="px-6 py-4 border-b border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800">Detected Pest: {{ pred }}</h3>
+                <p class="text-sm text-gray-600">Image used for AI identification</p>
+              </div>
+              <div class="p-6">
+                <div class="w-full aspect-[4/3] bg-gray-50 rounded-xl overflow-hidden">
+                  <img src="{{ uploaded_image_url }}" alt="Detected pest image" class="w-full h-full object-contain">
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        {% endif %}
+
+        <!-- Pesticide Grid -->
+        <div class="p-8 md:p-12">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {% block pesticides %}
+            <!-- Pesticides will be inserted here by child templates -->
+            {% endblock %}
+          </div>
+
+          <!-- Safety Info -->
+          <div class="bg-orange-50 border-l-4 border-orange-600 rounded-lg p-6 mb-8">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <i class="fas fa-exclamation-triangle text-2xl text-orange-600"></i>
+              </div>
+              <div class="ml-4">
+                <h4 class="text-lg font-bold text-gray-800 mb-2">
+                  <i class="fas fa-shield-alt mr-2"></i>Safety Guidelines
+                </h4>
+                <ul class="text-gray-700 text-sm space-y-1">
+                  <li><i class="fas fa-check text-orange-600 mr-2"></i>Always wear protective equipment when handling pesticides</li>
+                  <li><i class="fas fa-check text-orange-600 mr-2"></i>Follow the recommended dosage carefully</li>
+                  <li><i class="fas fa-check text-orange-600 mr-2"></i>Apply during early morning or late evening</li>
+                  <li><i class="fas fa-check text-orange-600 mr-2"></i>Keep away from children and pets</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a 
+              href="/PesticideRecommendation.html" 
+              class="bg-gradient-to-r from-orange-600 to-orange-500 text-white px-8 py-4 rounded-lg font-semibold hover:shadow-xl transition-all text-center"
+            >
+              <i class="fas fa-upload mr-2"></i>Analyze Another Image
+            </a>
+            <a 
+              href="/FertilizerRecommendation.html" 
+              class="border-2 border-orange-600 text-orange-600 px-8 py-4 rounded-lg font-semibold hover:bg-orange-600 hover:text-white transition-all text-center"
+            >
+              <i class="fas fa-flask mr-2"></i>Get Fertilizer Advice
+            </a>
+            <a 
+              href="/" 
+              class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all text-center"
+            >
+              <i class="fas fa-home mr-2"></i>Go Home
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

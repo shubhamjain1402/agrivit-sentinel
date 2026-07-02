@@ -1,0 +1,200 @@
+{% extends "layout_agrios.html" %}
+
+{% block body %}
+
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-blue-600 to-blue-500 py-20">
+  <div class="container mx-auto px-4 text-center">
+    <div class="max-w-3xl mx-auto">
+      <div class="inline-block bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 mb-6">
+        <span class="text-white font-semibold"><i class="fas fa-flask mr-2"></i>Nutrient Optimization</span>
+      </div>
+      <h1 class="text-5xl font-bold text-white mb-6">Smart Fertilizer Optimization</h1>
+      <p class="text-xl text-white/90 leading-relaxed">
+        Receive personalized fertilizer recommendations based on soil NPK analysis and crop requirements for optimal nutrient balance
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Form Section -->
+<section class="py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="max-w-2xl mx-auto">
+      <div class="bg-white rounded-2xl shadow-2xl p-8 md:p-12">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-gray-800 mb-3">Enter Soil NPK & Crop Data</h2>
+          <p class="text-gray-600">Fill in your current soil parameters and crop selection</p>
+        </div>
+
+        <form method="POST" action="{{url_for('fertilizer_recommend')}}" class="space-y-6">
+          <!-- NPK Values Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Nitrogen -->
+            <div>
+              <label for="Nitrogen" class="block text-sm font-semibold text-gray-700 mb-2">
+                <i class="fas fa-flask text-blue-600 mr-2"></i>Nitrogen (N)
+              </label>
+              <input
+                type="number"
+                id="Nitrogen"
+                name="nitrogen"
+                max="100"
+                min="0"
+                placeholder="0-100"
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 transition-all outline-none"
+                required
+              />
+              <p class="text-xs text-gray-500 mt-1">Current ratio</p>
+            </div>
+
+            <!-- Phosphorous -->
+            <div>
+              <label for="Phosphorous" class="block text-sm font-semibold text-gray-700 mb-2">
+                <i class="fas fa-flask text-blue-600 mr-2"></i>Phosphorous (P)
+              </label>
+              <input
+                type="number"
+                id="Phosphorous"
+                name="phosphorous"
+                max="100"
+                min="0"
+                placeholder="0-100"
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 transition-all outline-none"
+                required
+              />
+              <p class="text-xs text-gray-500 mt-1">Current ratio</p>
+            </div>
+
+            <!-- Potassium -->
+            <div>
+              <label for="Potassium" class="block text-sm font-semibold text-gray-700 mb-2">
+                <i class="fas fa-flask text-blue-600 mr-2"></i>Potassium (K)
+              </label>
+              <input
+                type="number"
+                id="Potassium"
+                name="potassium"
+                max="100"
+                min="0"
+                placeholder="0-100"
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 transition-all outline-none"
+                required
+              />
+              <p class="text-xs text-gray-500 mt-1">Current ratio</p>
+            </div>
+          </div>
+
+          <!-- Crop Selection -->
+          <div>
+            <label for="crop" class="block text-sm font-semibold text-gray-700 mb-2">
+              <i class="fas fa-seedling text-blue-600 mr-2"></i>Select Your Crop
+            </label>
+            <select
+              name="cropname"
+              id="crop"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 transition-all outline-none appearance-none bg-white"
+              style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27currentColor%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1.5em 1.5em; padding-right: 3rem;"
+              required
+            >
+              <option selected>apple</option>
+              <option>banana</option>
+              <option>blackgram</option>
+              <option>chickpea</option>
+              <option>coconut</option>
+              <option>coffee</option>
+              <option>cotton</option>
+              <option>grapes</option>
+              <option>groundnut</option>
+              <option>jute</option>
+              <option>kidneybeans</option>
+              <option>lentil</option>
+              <option>maize</option>
+              <option>mango</option>
+              <option>mothbeans</option>
+              <option>mungbean</option>
+              <option>muskmelon</option>
+              <option>mustard</option>
+              <option>orange</option>
+              <option>paddy</option>
+              <option>papaya</option>
+              <option>pearlmillet</option>
+              <option>pigeonpea</option>
+              <option>pomegranate</option>
+              <option>rapeseed</option>
+              <option>rice</option>
+              <option>sorghum</option>
+              <option>sugarcane</option>
+              <option>watermelon</option>
+              <option>wheat</option>
+            </select>
+            <p class="text-xs text-gray-500 mt-1">Choose the crop you're planning to grow</p>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            class="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-black font-bold py-4 px-8 rounded-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-3"
+          >
+            <i class="fas fa-brain"></i>
+            Analyze & Get Fertilizer Recommendations
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </form>
+
+        <!-- Info Box -->
+        <div class="mt-8 bg-blue-50 rounded-lg p-6 border-l-4 border-blue-600">
+          <h3 class="font-bold text-gray-800 mb-3 flex items-center">
+            <i class="fas fa-lightbulb text-blue-600 mr-2"></i>
+            How It Works
+          </h3>
+          <ul class="space-y-2 text-sm text-gray-700">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-blue-600 mr-2 mt-0.5"></i>
+              <span>AI compares your current NPK levels with crop requirements</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-blue-600 mr-2 mt-0.5"></i>
+              <span>Calculates the exact nutrients needed for optimal growth</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-blue-600 mr-2 mt-0.5"></i>
+              <span>Provides specific fertilizer recommendations to balance soil nutrients</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Benefits Section -->
+<section class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <div class="text-center">
+        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-balance-scale text-2xl text-blue-600"></i>
+        </div>
+        <h3 class="font-bold text-gray-800 mb-2">Perfect Balance</h3>
+        <p class="text-gray-600 text-sm">Achieve optimal NPK ratios for maximum crop yield</p>
+      </div>
+      <div class="text-center">
+        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-dollar-sign text-2xl text-blue-600"></i>
+        </div>
+        <h3 class="font-bold text-gray-800 mb-2">Cost Efficient</h3>
+        <p class="text-gray-600 text-sm">Apply only what's needed, save money and resources</p>
+      </div>
+      <div class="text-center">
+        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-leaf text-2xl text-blue-600"></i>
+        </div>
+        <h3 class="font-bold text-gray-800 mb-2">Eco-Friendly</h3>
+        <p class="text-gray-600 text-sm">Prevent over-fertilization and environmental damage</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

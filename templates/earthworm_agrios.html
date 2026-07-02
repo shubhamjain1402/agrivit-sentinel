@@ -1,0 +1,143 @@
+{% extends "layout_agrios.html" %}
+
+{% block body %}
+
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-green-600 to-green-500 py-20">
+  <div class="container mx-auto px-4 text-center">
+    <div class="max-w-3xl mx-auto">
+      <div class="inline-block bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 mb-6">
+        <span class="text-white font-semibold"><i class="fas fa-leaf mr-2"></i>Beneficial Organism</span>
+      </div>
+      <h1 class="text-5xl font-bold text-white mb-6">Earthworm</h1>
+      <p class="text-xl text-white/90 leading-relaxed">
+        Great news! Earthworms are beneficial for your soil
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Result Section -->
+<section class="py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-green-600 to-green-500 px-8 py-6 text-center">
+          <h2 class="text-2xl font-bold text-white mb-2">
+            <i class="fas fa-check-circle mr-2"></i>No Treatment Needed
+          </h2>
+          <p class="text-white/90">Earthworms are your farming allies</p>
+        </div>
+
+        <!-- Content -->
+        <div class="p-8 md:p-12">
+          <!-- Success Message -->
+          <div class="bg-green-50 border-l-4 border-green-600 rounded-lg p-6 mb-8">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <i class="fas fa-heart text-3xl text-green-600"></i>
+              </div>
+              <div class="ml-4">
+                <h4 class="text-2xl font-bold text-gray-800 mb-3">
+                  Earthworms Are Beneficial!
+                </h4>
+                <p class="text-gray-700 leading-relaxed">
+                  Earthworms are nature's soil engineers. They improve soil structure, enhance nutrient availability, 
+                  and increase water infiltration. Their presence indicates healthy, fertile soil.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Benefits Grid -->
+          <h3 class="text-xl font-bold text-gray-800 mb-6 text-center">
+            Why Earthworms Are Good for Your Farm
+          </h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-gray-50 rounded-lg p-6">
+              <div class="flex items-start gap-4">
+                <div class="bg-green-100 p-3 rounded-full flex-shrink-0">
+                  <i class="fas fa-arrows-alt-v text-green-600 text-xl"></i>
+                </div>
+                <div>
+                  <h5 class="font-bold text-gray-800 mb-2">Soil Aeration</h5>
+                  <p class="text-gray-600 text-sm">Create channels that improve air and water movement in soil</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-50 rounded-lg p-6">
+              <div class="flex items-start gap-4">
+                <div class="bg-green-100 p-3 rounded-full flex-shrink-0">
+                  <i class="fas fa-leaf text-green-600 text-xl"></i>
+                </div>
+                <div>
+                  <h5 class="font-bold text-gray-800 mb-2">Nutrient Cycling</h5>
+                  <p class="text-gray-600 text-sm">Break down organic matter and make nutrients available to plants</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-50 rounded-lg p-6">
+              <div class="flex items-start gap-4">
+                <div class="bg-green-100 p-3 rounded-full flex-shrink-0">
+                  <i class="fas fa-tint text-green-600 text-xl"></i>
+                </div>
+                <div>
+                  <h5 class="font-bold text-gray-800 mb-2">Water Retention</h5>
+                  <p class="text-gray-600 text-sm">Improve soil's ability to hold and distribute water</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-50 rounded-lg p-6">
+              <div class="flex items-start gap-4">
+                <div class="bg-green-100 p-3 rounded-full flex-shrink-0">
+                  <i class="fas fa-recycle text-green-600 text-xl"></i>
+                </div>
+                <div>
+                  <h5 class="font-bold text-gray-800 mb-2">Organic Matter</h5>
+                  <p class="text-gray-600 text-sm">Produce nutrient-rich castings that fertilize the soil naturally</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a 
+              href="/PesticideRecommendation.html" 
+              class="bg-gradient-to-r from-green-600 to-green-500 text-white px-8 py-4 rounded-lg font-semibold hover:shadow-xl transition-all text-center"
+            >
+              <i class="fas fa-upload mr-2"></i>Analyze Another Image
+            </a>
+            <a 
+              href="/CropRecommendation.html" 
+              class="border-2 border-green-600 text-green-600 px-8 py-4 rounded-lg font-semibold hover:bg-green-600 hover:text-white transition-all text-center"
+            >
+              <i class="fas fa-seedling mr-2"></i>Get Crop Recommendation
+            </a>
+            <a 
+              href="/" 
+              class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all text-center"
+            >
+              <i class="fas fa-home mr-2"></i>Go Home
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <div class="mt-8 text-center">
+        <p class="text-gray-600">
+          <i class="fas fa-info-circle mr-1"></i>
+          Earthworms indicate healthy soil. No pesticide treatment is needed or recommended.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

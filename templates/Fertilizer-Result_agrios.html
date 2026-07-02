@@ -1,0 +1,148 @@
+{% extends "layout_agrios.html" %}
+
+{% block body %}
+
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-blue-600 to-blue-500 py-20">
+  <div class="container mx-auto px-4 text-center">
+    <div class="max-w-3xl mx-auto">
+      <div class="inline-block bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 mb-6">
+        <span class="text-white font-semibold"><i class="fas fa-check-circle mr-2"></i>Analysis Complete</span>
+      </div>
+      <h1 class="text-5xl font-bold text-white mb-6">Fertilizer Recommendation</h1>
+      <p class="text-xl text-white/90 leading-relaxed">
+        Personalized fertilizer recommendations based on your soil NPK analysis
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Result Section -->
+<section class="py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+      <!-- Result Card -->
+      <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-600 to-blue-500 px-8 py-6 text-center">
+          <h2 class="text-2xl font-bold text-white mb-2">NPK Analysis Results</h2>
+          <p class="text-white/90">Optimize your soil nutrients for better yields</p>
+        </div>
+
+        <!-- Content -->
+        <div class="p-8 md:p-12">
+          <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+            <i class="fas fa-flask text-blue-600 mr-2"></i>Personalized Recommendations
+          </h3>
+
+          <!-- NPK Recommendations -->
+          <div class="space-y-6 mb-8">
+            <!-- Nitrogen -->
+            <div class="bg-gradient-to-r from-blue-50 to-blue-100/50 rounded-xl p-6 border-l-4 border-blue-600">
+              <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-3">
+                  <div class="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold">N</span>
+                  </div>
+                  <h4 class="text-xl font-bold text-gray-800">Nitrogen</h4>
+                </div>
+                <span class="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                  Δ {{ diff_n }}
+                </span>
+              </div>
+              <div class="text-gray-700 leading-relaxed">
+                {{ recommendation1|safe }}
+              </div>
+            </div>
+
+            <!-- Phosphorus -->
+            <div class="bg-gradient-to-r from-purple-50 to-purple-100/50 rounded-xl p-6 border-l-4 border-purple-600">
+              <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-3">
+                  <div class="bg-purple-600 w-10 h-10 rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold">P</span>
+                  </div>
+                  <h4 class="text-xl font-bold text-gray-800">Phosphorus</h4>
+                </div>
+                <span class="bg-purple-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                  Δ {{ diff_p }}
+                </span>
+              </div>
+              <div class="text-gray-700 leading-relaxed">
+                {{ recommendation2|safe }}
+              </div>
+            </div>
+
+            <!-- Potassium -->
+            <div class="bg-gradient-to-r from-green-50 to-green-100/50 rounded-xl p-6 border-l-4 border-green-600">
+              <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-3">
+                  <div class="bg-green-600 w-10 h-10 rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold">K</span>
+                  </div>
+                  <h4 class="text-xl font-bold text-gray-800">Potassium</h4>
+                </div>
+                <span class="bg-green-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                  Δ {{ diff_k }}
+                </span>
+              </div>
+              <div class="text-gray-700 leading-relaxed">
+                {{ recommendation3|safe }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Info Box -->
+          <div class="bg-blue-50 border-l-4 border-blue-600 rounded-lg p-6 mb-8">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <i class="fas fa-info-circle text-2xl text-blue-600"></i>
+              </div>
+              <div class="ml-4">
+                <h4 class="text-lg font-bold text-gray-800 mb-2">
+                  Understanding NPK Values
+                </h4>
+                <p class="text-gray-700 text-sm">
+                  The delta (Δ) values show the difference between your current soil levels and optimal levels for your crop. 
+                  Positive values mean you need to add nutrients, negative values mean you have excess.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a 
+              href="/FertilizerRecommendation.html" 
+              class="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-8 py-4 rounded-lg font-semibold hover:shadow-xl transition-all text-center"
+            >
+              <i class="fas fa-redo mr-2"></i>New Analysis
+            </a>
+            <a 
+              href="/CropRecommendation.html" 
+              class="border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-all text-center"
+            >
+              <i class="fas fa-seedling mr-2"></i>Get Crop Recommendation
+            </a>
+            <a 
+              href="/" 
+              class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all text-center"
+            >
+              <i class="fas fa-home mr-2"></i>Go Home
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <div class="mt-8 text-center">
+        <p class="text-gray-600">
+          <i class="fas fa-lightbulb mr-1"></i>
+          Apply fertilizers according to these recommendations for optimal crop growth and yield.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,192 @@
+{% extends "layout_agrios.html" %}
+
+{% block body %}
+
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-orange-600 to-orange-500 py-20">
+  <div class="container mx-auto px-4 text-center">
+    <div class="max-w-3xl mx-auto">
+      <div class="inline-block bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 mb-6">
+        <span class="text-white font-semibold"><i class="fas fa-bug mr-2"></i>AI Pest Detection</span>
+      </div>
+      <h1 class="text-5xl font-bold text-white mb-6">Smart Pest Management</h1>
+      <p class="text-xl text-white/90 leading-relaxed">
+        Upload a clear image of the pest to get AI-powered identification and targeted pesticide recommendations instantly
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Upload Section -->
+<section class="py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="max-w-2xl mx-auto">
+      <div class="bg-white rounded-2xl shadow-2xl p-8 md:p-12">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-gray-800 mb-3">Upload Pest Image</h2>
+          <p class="text-gray-600">Take or upload a clear photo of the pest for accurate identification</p>
+        </div>
+
+        <form action="/predict" method="post" enctype="multipart/form-data" class="space-y-6">
+          <!-- Image Upload Area -->
+          <div class="border-2 border-dashed border-orange-300 rounded-xl p-10 text-center hover:border-orange-500 transition-all bg-orange-50/30">
+            <div class="space-y-4">
+              <div class="flex justify-center">
+                <div class="bg-orange-100 w-20 h-20 rounded-full flex items-center justify-center">
+                  <i class="fas fa-camera text-4xl text-orange-600"></i>
+                </div>
+              </div>
+              
+              <div>
+                <label for="image" class="block">
+                  <span class="inline-block bg-gradient-to-r from-orange-600 to-orange-500 text-black font-bold py-3 px-8 rounded-lg cursor-pointer hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+                    <i class="fas fa-upload mr-2"></i>Choose Image
+                  </span>
+                </label>
+                <input 
+                  type="file" 
+                  name="image" 
+                  id="image"
+                  accept="image/*"
+                  class="hidden"
+                  onchange="updateFileName(this)"
+                  required
+                />
+              </div>
+              
+              <p class="text-sm text-gray-500">
+                <i class="fas fa-info-circle mr-1"></i>
+                PNG, JPG, or GIF (Max 5MB)
+              </p>
+              
+              <div id="fileName" class="text-sm font-semibold text-orange-600 hidden"></div>
+            </div>
+          </div>
+
+          <!-- Tips Section -->
+          <div class="bg-gradient-to-r from-orange-50 to-orange-100/50 rounded-xl p-6 border border-orange-200">
+            <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+              <i class="fas fa-lightbulb text-orange-600 mr-2"></i>
+              Tips for Best Results
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-gray-700">
+              <div class="flex items-start">
+                <i class="fas fa-check text-orange-600 mr-2 mt-1"></i>
+                <span>Use clear, well-lit photos</span>
+              </div>
+              <div class="flex items-start">
+                <i class="fas fa-check text-orange-600 mr-2 mt-1"></i>
+                <span>Show the pest in focus</span>
+              </div>
+              <div class="flex items-start">
+                <i class="fas fa-check text-orange-600 mr-2 mt-1"></i>
+                <span>Include affected plant area</span>
+              </div>
+              <div class="flex items-start">
+                <i class="fas fa-check text-orange-600 mr-2 mt-1"></i>
+                <span>Avoid blurry images</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            class="w-full bg-gradient-to-r from-orange-600 to-orange-500 text-black font-bold py-4 px-8 rounded-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-3"
+          >
+            <i class="fas fa-brain"></i>
+            Analyze Pest & Get Recommendations
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </form>
+
+        <!-- How It Works -->
+        <div class="mt-8 bg-orange-50 rounded-lg p-6 border-l-4 border-orange-600">
+          <h3 class="font-bold text-gray-800 mb-3 flex items-center">
+            <i class="fas fa-cogs text-orange-600 mr-2"></i>
+            How It Works
+          </h3>
+          <ul class="space-y-2 text-sm text-gray-700">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-orange-600 mr-2 mt-0.5"></i>
+              <span>Advanced CNN model analyzes the pest image</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-orange-600 mr-2 mt-0.5"></i>
+              <span>Identifies the pest species with high accuracy</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-orange-600 mr-2 mt-0.5"></i>
+              <span>Provides targeted pesticide and treatment recommendations</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Supported Pests Section -->
+<section class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-gray-800 mb-4">Detectable Pests</h2>
+      <p class="text-gray-600">Our AI can identify these common agricultural pests</p>
+    </div>
+    
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-6 max-w-5xl mx-auto">
+      <div class="text-center p-4 bg-gray-50 rounded-lg hover:bg-orange-50 transition-all">
+        <div class="text-3xl mb-2">🦗</div>
+        <p class="text-sm font-semibold text-gray-700">Aphids</p>
+      </div>
+      <div class="text-center p-4 bg-gray-50 rounded-lg hover:bg-orange-50 transition-all">
+        <div class="text-3xl mb-2">🐛</div>
+        <p class="text-sm font-semibold text-gray-700">Armyworm</p>
+      </div>
+      <div class="text-center p-4 bg-gray-50 rounded-lg hover:bg-orange-50 transition-all">
+        <div class="text-3xl mb-2">🪲</div>
+        <p class="text-sm font-semibold text-gray-700">Beetle</p>
+      </div>
+      <div class="text-center p-4 bg-gray-50 rounded-lg hover:bg-orange-50 transition-all">
+        <div class="text-3xl mb-2">🐛</div>
+        <p class="text-sm font-semibold text-gray-700">Bollworm</p>
+      </div>
+      <div class="text-center p-4 bg-gray-50 rounded-lg hover:bg-orange-50 transition-all">
+        <div class="text-3xl mb-2">🦗</div>
+        <p class="text-sm font-semibold text-gray-700">Grasshopper</p>
+      </div>
+      <div class="text-center p-4 bg-gray-50 rounded-lg hover:bg-orange-50 transition-all">
+        <div class="text-3xl mb-2">🕷️</div>
+        <p class="text-sm font-semibold text-gray-700">Mites</p>
+      </div>
+      <div class="text-center p-4 bg-gray-50 rounded-lg hover:bg-orange-50 transition-all">
+        <div class="text-3xl mb-2">🦟</div>
+        <p class="text-sm font-semibold text-gray-700">Mosquito</p>
+      </div>
+      <div class="text-center p-4 bg-gray-50 rounded-lg hover:bg-orange-50 transition-all">
+        <div class="text-3xl mb-2">🐛</div>
+        <p class="text-sm font-semibold text-gray-700">Sawfly</p>
+      </div>
+      <div class="text-center p-4 bg-gray-50 rounded-lg hover:bg-orange-50 transition-all">
+        <div class="text-3xl mb-2">🐛</div>
+        <p class="text-sm font-semibold text-gray-700">Stem Borer</p>
+      </div>
+      <div class="text-center p-4 bg-gray-50 rounded-lg hover:bg-orange-50 transition-all">
+        <div class="text-3xl mb-2">🪱</div>
+        <p class="text-sm font-semibold text-gray-700">Earthworm</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function updateFileName(input) {
+  const fileName = document.getElementById('fileName');
+  if (input.files && input.files[0]) {
+    fileName.textContent = '📁 ' + input.files[0].name;
+    fileName.classList.remove('hidden');
+  }
+}
+</script>
+
+{% endblock %}
