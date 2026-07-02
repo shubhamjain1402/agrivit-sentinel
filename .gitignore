@@ -118,3 +118,5 @@ static/images/farmer*.png
 static/images/human*.png
 static/images/hero.png
 static/images/bg*.png
+
+.vercel
