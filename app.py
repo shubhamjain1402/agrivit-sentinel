@@ -12,6 +12,7 @@ import pandas as pd
 import os
 import numpy as np
 import pickle
+import tempfile
 from utils.fertilizer import get_nutrient_recommendations
 import threading
 import logging
@@ -21,7 +22,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static', 'user_uploaded')
+UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER', os.path.join(tempfile.gettempdir(), 'agrivit_uploads'))
 ALLOWED_IMAGE_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp'}
 
 # ==================== Model Loading Architecture ====================
@@ -93,6 +94,13 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_image(filename):
     """Return True when an uploaded file has a supported image extension."""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
+
+
+def pest_model_available(preference_paths=None):
+    """Return True when a supported pest model file exists in the project root."""
+    if preference_paths is None:
+        preference_paths = ['pest_model.keras', 'pest_model.h5', 'Trained_model_new.h5']
+    return any(os.path.exists(os.path.join(BASE_DIR, model_path)) for model_path in preference_paths)
 
 # ==================== Nutrient Analysis Engine ====================
 @app.route('/fertilizer-predict', methods=['POST'], endpoint='fertilizer_recommend')
@@ -237,17 +245,20 @@ def upload_and_predict_pest():
             save_path = os.path.join(save_directory, file_name)
             uploaded_file.save(save_path)
             
-            # Get public URL
-            image_url = url_for('static', filename=f"user_uploaded/{file_name}")
-            
             logger.info(f"Processing uploaded image: {file_name}")
             
             # Perform pest detection
             pest_idx, confidence = predict_pest_species(save_path)
             
             if pest_idx == 'unknown':
-                return render_template('error_agrios.html', 
-                                      message='Unable to identify pest. Please try with a clearer image.')
+                message = (
+                    'Pest prediction model is not configured. Add pest_model.keras, '
+                    'pest_model.h5, or Trained_model_new.h5 to the project root and '
+                    'install TensorFlow to enable pest detection.'
+                )
+                if pest_model_available():
+                    message = 'Unable to identify pest. Please try with a clearer image.'
+                return render_template('error_agrios.html', message=message)
             
             pest_species_list = ['aphids', 'armyworm', 'beetle', 'bollworm', 'earthworm',
                                'grasshopper', 'mites', 'mosquito', 'sawfly', 'stem_borer']
@@ -257,7 +268,7 @@ def upload_and_predict_pest():
             return render_template(
                 f"{pest_display}_agrios.html",
                 pred=pest_display,
-                uploaded_image_url=image_url,
+                uploaded_image_url=None,
                 confidence=f"{confidence:.1%}" if confidence else "N/A"
             )
         

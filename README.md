@@ -59,11 +59,12 @@ Vercel currently supports Python 3.12+ for Python functions, so TensorFlow is no
 ## Important Model Notes
 
 - `Crop_Recommendation.pkl` is included and used for crop recommendations.
-- Pest detection needs one of these model files in the project root:
+- Pest detection needs TensorFlow installed and one of these model files in the project root:
   - `pest_model.keras`
   - `pest_model.h5`
   - `Trained_model_new.h5`
 - Without a pest model file, the pest upload page will load, but image classification will return an unavailable-model error.
+- On Vercel, crop and fertilizer features are supported. Pest detection should be deployed on a host that supports TensorFlow and persistent model files, or converted to a smaller inference runtime before enabling it there.
 
 ## Structure
 
