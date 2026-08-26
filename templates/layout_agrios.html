@@ -8,6 +8,7 @@
   
   <!-- Tailwind CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/agrios.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/polish.css') }}">
   
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -93,8 +94,10 @@
 
 <body class="font-poppins text-gray-800">
 
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
   <!-- ================= NAVBAR ================= -->
-  <header class="fixed top-0 left-0 w-full z-50 bg-white backdrop-blur-sm shadow-md">
+  <header class="site-header fixed top-0 left-0 w-full z-50 bg-white backdrop-blur-sm shadow-md">
     <div class="container mx-auto px-4 sm:px-6 flex items-center justify-between h-20">
       <!-- Logo -->
       <div class="flex items-center gap-3 z-50">
@@ -120,10 +123,10 @@
       <!-- Desktop Nav -->
       <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-700">
         {% block nav %}
-        <a href="/" class="hover:text-primary transition-colors">Home</a>
-        <a href="/CropRecommendation.html" class="hover:text-primary transition-colors">Smart Crop</a>
-        <a href="/FertilizerRecommendation.html" class="hover:text-primary transition-colors">Smart Fertilizer</a>
-        <a href="/PesticideRecommendation.html" class="hover:text-primary transition-colors">Pest Control</a>
+        <a href="/" class="nav-link {% if request.path in ['/', '/index.html'] %}is-active{% endif %}">Home</a>
+        <a href="/CropRecommendation.html" class="nav-link {% if request.path == '/CropRecommendation.html' %}is-active{% endif %}">Smart Crop</a>
+        <a href="/FertilizerRecommendation.html" class="nav-link {% if request.path == '/FertilizerRecommendation.html' %}is-active{% endif %}">Smart Fertilizer</a>
+        <a href="/PesticideRecommendation.html" class="nav-link {% if request.path in ['/PesticideRecommendation.html', '/predict'] %}is-active{% endif %}">Pest Control</a>
         {% endblock %}
       </nav>
 
@@ -163,7 +166,7 @@
   </header>
 
   <!-- Main Content -->
-  <main class="pt-20">
+  <main id="main-content" class="pt-20">
     {% block body %}
     {% endblock %}
   </main>

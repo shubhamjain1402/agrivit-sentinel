@@ -54,17 +54,19 @@ This repository includes `vercel.json` and `.python-version` for Vercel's Python
 2. Keep the default build settings.
 3. Deploy.
 
-Vercel currently supports Python 3.12+ for Python functions, so TensorFlow is not installed by default. Crop and fertilizer features deploy normally; pest detection requires adding a compatible TensorFlow setup and a pest model file.
+The production dependency set stays lightweight for Vercel. Pest inference uses
+the bundled HDF5 weights with NumPy, Pillow, and h5py, so TensorFlow is optional.
 
 ## Important Model Notes
 
 - `Crop_Recommendation.pkl` is included and used for crop recommendations.
-- Pest detection needs TensorFlow installed and one of these model files in the project root:
+- `Trained_model_new.h5` is included for the 10-class pest detector.
+- TensorFlow is optional. When it is unavailable, the app automatically uses the
+  lightweight NumPy inference path that is compatible with Vercel.
+- The loader also recognizes these alternative model filenames:
   - `pest_model.keras`
   - `pest_model.h5`
-  - `Trained_model_new.h5`
 - Without a pest model file, the pest upload page will load, but image classification will return an unavailable-model error.
-- On Vercel, crop and fertilizer features are supported. Pest detection should be deployed on a host that supports TensorFlow and persistent model files, or converted to a smaller inference runtime before enabling it there.
 
 ## Structure
 
@@ -73,6 +75,8 @@ app.py                    Flask application
 cnn_model.py              Pest model training/building utilities
 crop_model.py             Crop model training utilities
 Crop_Recommendation.pkl   Trained crop recommendation model
+Trained_model_new.h5      Trained pest classification model
+numpy_pest_model.py       Lightweight production pest inference
 Data/Crop_NPK.csv         Crop nutrient targets for fertilizer guidance
 static/                   CSS, images, uploads
 templates/                Jinja templates

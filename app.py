@@ -8,12 +8,15 @@ Features: Deep learning-based pest detection, crop recommendation system, NPK an
 from flask import Flask, render_template, request, url_for
 from markupsafe import Markup
 from werkzeug.utils import secure_filename
+from werkzeug.exceptions import RequestEntityTooLarge
+from PIL import Image, UnidentifiedImageError
 import pandas as pd
 import os
 import numpy as np
 import pickle
 import tempfile
 from utils.fertilizer import get_nutrient_recommendations
+from numpy_pest_model import NumpyPestClassifier
 import threading
 import logging
 
@@ -50,19 +53,25 @@ class ModelManager:
                 resolved_model_path = os.path.join(BASE_DIR, model_path)
                 if not os.path.exists(resolved_model_path):
                     continue
-                
+
+                if model_path.lower().endswith('.h5'):
+                    try:
+                        self.pest_classifier = NumpyPestClassifier(resolved_model_path)
+                        logger.info(f"Pest model loaded with NumPy inference: {model_path}")
+                        return self.pest_classifier
+                    except Exception as e:
+                        logger.warning(f"NumPy model load failed ({model_path}): {str(e)}")
+
                 try:
                     from tensorflow.keras.models import load_model
 
-                    self.pest_classifier = load_model(resolved_model_path)
+                    self.pest_classifier = load_model(resolved_model_path, compile=False)
                     logger.info(f"Pest model loaded: {model_path}")
                     return self.pest_classifier
                 except ImportError:
-                    logger.warning("TensorFlow is not installed; pest model loading is disabled")
-                    return None
+                    logger.info("TensorFlow is unavailable")
                 except Exception as e:
-                    logger.warning(f"Model load failed ({model_path}): {str(e)}")
-                    continue
+                    logger.warning(f"TensorFlow model load failed ({model_path}): {str(e)}")
             
             logger.error("No pest detection model available")
             return None
@@ -87,8 +96,17 @@ model_mgr = ModelManager()
 
 # ==================== Flask Application Setup ====================
 app = Flask(__name__)
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload
+app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024  # Safely below Vercel's 4.5MB request limit
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+@app.errorhandler(RequestEntityTooLarge)
+def handle_large_upload(_error):
+    """Show a friendly message for images above the deployment upload limit."""
+    return render_template(
+        'error_agrios.html',
+        message='Image is too large. Please upload a file smaller than 4MB.',
+    ), 413
 
 
 def allowed_image(filename):
@@ -165,20 +183,16 @@ def predict_pest_species(image_path):
             logger.warning("Pest detection model unavailable")
             return 'unknown', None
 
-        try:
-            from tensorflow.keras.preprocessing import image
-        except ImportError:
-            logger.warning("TensorFlow is not installed; pest image preprocessing is disabled")
-            return 'unknown', None
-        
         # Get model input specifications
         input_shape = model.input_shape  # (batch_size, height, width, channels)
         target_height = input_shape[1] if input_shape[1] else 128
         target_width = input_shape[2] if input_shape[2] else 128
         
         # Load and preprocess image
-        loaded_image = image.load_img(image_path, target_size=(target_height, target_width))
-        image_array = image.img_to_array(loaded_image)
+        with Image.open(image_path) as loaded_image:
+            loaded_image = loaded_image.convert('RGB')
+            loaded_image = loaded_image.resize((target_width, target_height), Image.Resampling.BILINEAR)
+            image_array = np.asarray(loaded_image, dtype=np.float32)
         image_array = image_array / 255.0  # Normalize to [0, 1]
         image_array = np.expand_dims(image_array, axis=0)
         
@@ -244,17 +258,29 @@ def upload_and_predict_pest():
             os.makedirs(save_directory, exist_ok=True)
             save_path = os.path.join(save_directory, file_name)
             uploaded_file.save(save_path)
+
+            try:
+                with Image.open(save_path) as uploaded_image:
+                    uploaded_image.verify()
+            except (UnidentifiedImageError, OSError):
+                os.remove(save_path)
+                return render_template('error_agrios.html', message='The uploaded file is not a valid image')
             
             logger.info(f"Processing uploaded image: {file_name}")
             
             # Perform pest detection
-            pest_idx, confidence = predict_pest_species(save_path)
+            try:
+                pest_idx, confidence = predict_pest_species(save_path)
+            finally:
+                try:
+                    os.remove(save_path)
+                except OSError:
+                    logger.warning(f"Unable to remove temporary upload: {save_path}")
             
             if pest_idx == 'unknown':
                 message = (
                     'Pest prediction model is not configured. Add pest_model.keras, '
-                    'pest_model.h5, or Trained_model_new.h5 to the project root and '
-                    'install TensorFlow to enable pest detection.'
+                    'pest_model.h5, or Trained_model_new.h5 to the project root.'
                 )
                 if pest_model_available():
                     message = 'Unable to identify pest. Please try with a clearer image.'

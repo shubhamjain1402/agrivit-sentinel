@@ -45,6 +45,7 @@ server.err.log
 
 # TensorFlow
 *.h5
+!Trained_model_new.h5
 *.keras
 *.pb
 checkpoint
@@ -61,6 +62,7 @@ model/
 Data/train/
 Data/test/
 *.csv
+!Data/Crop_NPK.csv
 
 # Logs
 *.log
