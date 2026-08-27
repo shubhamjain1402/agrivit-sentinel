@@ -151,6 +151,32 @@ body {
   box-shadow: 0 22px 65px rgba(35, 65, 39, 0.12);
 }
 
+/* Keep icon-and-copy pairs readable even when a utility margin is unavailable. */
+.module-card label > i,
+.module-card h3 > i,
+.module-card h4 > i {
+  width: 1rem;
+  margin-right: 0.55rem;
+  text-align: center;
+  flex: 0 0 1rem;
+}
+
+.module-card li.flex,
+.module-card .items-start {
+  column-gap: 0.65rem;
+  line-height: 1.55;
+}
+
+.module-card li.flex > i,
+.module-card .items-start > i {
+  margin-right: 0;
+  flex: 0 0 auto;
+}
+
+.hero-badge i {
+  margin-right: 0.55rem;
+}
+
 .module-card input[type="number"],
 .module-card input[type="text"],
 .module-card select {
@@ -201,6 +227,12 @@ body {
 
 .primary-action {
   background: linear-gradient(135deg, var(--agri-green-dark), var(--agri-green));
+  column-gap: 0.95rem;
+  line-height: 1.35;
+}
+
+.primary-action > i {
+  flex: 0 0 auto;
 }
 
 .primary-action--blue {
